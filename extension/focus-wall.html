@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focus Wall - AutoFocus</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      text-align: center;
+      padding: 40px;
+      max-width: 600px;
+    }
+
+    .icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin: 0 0 10px 0;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      opacity: 0.8;
+      margin-bottom: 30px;
+    }
+
+    .message {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .message h2 {
+      margin: 0 0 15px 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .message p {
+      margin: 10px 0;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 30px;
+      gap: 20px;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 8px;
+      flex: 1;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: 700;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: rgba(255, 255, 255, 0.9);
+      color: #667eea;
+    }
+
+    .btn-primary:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .motivation {
+      margin-top: 40px;
+      opacity: 0.7;
+      font-style: italic;
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.7; }
+      50% { opacity: 1; }
+      100% { opacity: 0.7; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">🎯</div>
+    <h1>Stay Focused!</h1>
+    <p class="subtitle">You've got this. Let's get back to work.</p>
+
+    <div class="message">
+      <h2 id="projectName">Your Project Session</h2>
+      <p>This site isn't on your allowed domains list. Time to refocus!</p>
+      <p><strong>Allowed domains:</strong> <span id="allowedDomains">Loading...</span></p>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-number" id="sessionTime">00:00</span>
+        <span class="stat-label">Session Time</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number" id="distractionsBlocked">0</span>
+        <span class="stat-label">Distractions Blocked</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="goToAllowedSite()">
+        Go to Allowed Site
+      </button>
+      <button class="btn btn-secondary" onclick="openPopup()">
+        Manage Session
+      </button>
+    </div>
+
+    <div class="motivation">
+      "The difference between successful people and very successful people is that very successful people say 'no' to almost everything." – Warren Buffett
+    </div>
+  </div>
+
+  <script src="focus-wall.js"></script>
+</body>
+</html>

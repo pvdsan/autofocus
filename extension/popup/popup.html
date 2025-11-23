@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoFocus</title>
+  <style>
+    body {
+      width: 300px;
+      min-height: 400px;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .header p {
+      font-size: 14px;
+      opacity: 0.8;
+      margin: 5px 0 0 0;
+    }
+
+    .session-form {
+      display: none;
+    }
+
+    .session-form.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      backdrop-filter: blur(10px);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .session-active {
+      display: none;
+      text-align: center;
+    }
+
+    .session-active.active {
+      display: block;
+    }
+
+    .session-info {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      backdrop-filter: blur(10px);
+      text-align: left;
+    }
+
+    .session-info h3 {
+      margin: 0 0 5px 0;
+      font-size: 16px;
+    }
+
+    .session-info p {
+      margin: 5px 0;
+      font-size: 12px;
+      opacity: 0.8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .timer-display {
+      text-align: center;
+      margin: 15px 0;
+    }
+
+    .timer {
+      font-size: 32px;
+      font-weight: 600;
+      margin: 5px 0;
+    }
+
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #4CAF50;
+      display: inline-block;
+      margin-right: 8px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .mode-selector {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    .mode-btn {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: transparent;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .mode-btn.active {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .mode-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎯 AutoFocus</h1>
+      <p>Intelligent Focus Assistant</p>
+    </div>
+
+    <!-- Session Setup Form -->
+    <div id="sessionForm" class="session-form active">
+      <div class="form-group">
+        <label for="projectName">Project Name</label>
+        <input type="text" id="projectName" placeholder="e.g., Thesis Writing">
+      </div>
+
+      <div class="form-group">
+        <label>Focus Mode</label>
+        <div class="mode-selector">
+          <button class="mode-btn active" data-mode="nudge">Nudge</button>
+          <button class="mode-btn" data-mode="guardrail">Guardrail</button>
+          <button class="mode-btn" data-mode="monk">Monk</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="projectDescription">What are you working on?</label>
+        <textarea id="projectDescription" placeholder="Describe your task so I can help you stay focused. E.g., 'Researching machine learning papers and writing notes in Google Docs'"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="duration">Duration (minutes, optional)</label>
+        <input type="number" id="duration" placeholder="50" min="1" max="480">
+      </div>
+
+      <button id="startSessionBtn" class="btn btn-primary">Start Focus Session</button>
+    </div>
+
+    <!-- Active Session Display -->
+    <div id="activeSession" class="session-active">
+      <div class="session-info">
+        <h3 id="currentProject"></h3>
+        <p id="currentDescription"></p>
+      </div>
+      
+      <div class="timer-display">
+        <div><div class="status-indicator"></div><span>Session Active</span></div>
+        <div class="timer" id="sessionTimer">00:00:00</div>
+        <div style="font-size: 12px; opacity: 0.7;">Mode: <span id="currentMode"></span></div>
+      </div>
+
+      <button id="endSessionBtn" class="btn btn-secondary">End Session</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
